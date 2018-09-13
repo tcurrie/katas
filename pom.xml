@@ -34,6 +34,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>3.1.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.github.tcurrie</groupId>
             <artifactId>ycombinator</artifactId>
             <version>1.0.1-SNAPSHOT</version>

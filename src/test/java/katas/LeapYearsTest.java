@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 public class LeapYearsTest {
-
     @Test
     public void yearsDivisibleBy4AreLeapYears() {
         validate(true, 4, 8, 12, 16, 96);
@@ -34,11 +33,8 @@ public class LeapYearsTest {
 
     private void validate(final boolean expected, final int... years) {
         for (final int year : years) {
-            assertThat(isLeapYear(year), is(expected));
+            assertThat(LeapYears.isLeapYear(year), is(expected));
         }
     }
 
-    private boolean isLeapYear(final int year) {
-        return year % 400 == 0 && year % 4000 != 0 || year % 4 == 0 && year % 100 != 0;
-    }
 }
