@@ -7,6 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Maps {
+    private Maps() { }
+
     public static <T> Map<Integer, T> toIndexMap(final T... data) {
         final AtomicInteger index = new AtomicInteger();
         return Arrays.stream(data).collect(Collectors.toMap(v->index.getAndIncrement(), v->v, (a, b)->a));
