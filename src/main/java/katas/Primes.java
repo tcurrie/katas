@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Primes {
-    private Primes() {}
+    private Primes() {
+        throw new UnsupportedOperationException("Do not create.");
+    }
     private static final BigInteger TWO = BigInteger.valueOf(2);
     private static final BigInteger THREE = BigInteger.valueOf(3);
     private static final BigInteger FIVE = BigInteger.valueOf(5);

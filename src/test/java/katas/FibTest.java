@@ -3,6 +3,8 @@ package katas;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -11,13 +13,30 @@ import java.util.stream.Stream;
 import org.hamcrest.Matchers;
 import org.junit.Assume;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 @RunWith(Enclosed.class)
 public class FibTest {
+
+    public static class StaticClass {
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @Test
+        public void shouldNotCreate() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+            thrown.expect(InvocationTargetException.class);
+            thrown.expectCause(Matchers.isA(UnsupportedOperationException.class));
+            final Constructor c = Fib.class.getDeclaredConstructor();
+            c.setAccessible(true);
+            c.newInstance();
+        }
+    }
+
     public static class RecursiveTest extends SequenceTest {
         @Override
         protected Function<Integer, BigInteger> getImplementation() {
@@ -65,6 +84,10 @@ public class FibTest {
                 { 5, "5" },
                 { 6, "8" },
                 { 7, "13" },
+                { 8, "21" },
+                { 9, "34" },
+                { 10, "55" },
+                { 11, "89" },
                 { 20, "6765" },
                 { 50, "12586269025" },
                 { 99, "218922995834555169026" },

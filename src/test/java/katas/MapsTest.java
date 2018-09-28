@@ -1,13 +1,18 @@
 package katas;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class MapsTest {
     @Test
@@ -59,5 +64,17 @@ public class MapsTest {
         expected.put(3, BigInteger.valueOf(3));
         expected.put(4, BigInteger.valueOf(2));
         assertThat(Maps.adapt(initial, Integer::parseInt, BigInteger::valueOf), is(expected));
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void shouldNotCreate() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        thrown.expect(InvocationTargetException.class);
+        thrown.expectCause(Matchers.isA(UnsupportedOperationException.class));
+        final Constructor c = Maps.class.getDeclaredConstructor();
+        c.setAccessible(true);
+        c.newInstance();
     }
 }

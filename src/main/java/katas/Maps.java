@@ -7,11 +7,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Maps {
-    private Maps() { }
+    private Maps() {
+        throw new UnsupportedOperationException("Do not create.");
+    }
 
+    @SuppressWarnings("unchecked")
     public static <T> Map<Integer, T> toIndexMap(final T... data) {
         final AtomicInteger index = new AtomicInteger();
-        return Arrays.stream(data).collect(Collectors.toMap(v->index.getAndIncrement(), v->v, (a, b)->a));
+        return Arrays.stream(data).collect(Collectors.toMap(v->index.getAndIncrement(), v->v));
     }
 
     public static <A, B, C, D> Map<C, D> adapt(final Map<A, B> initial, Function<A, C> keyMapper, Function<B, D> valueMapper) {

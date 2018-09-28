@@ -3,7 +3,13 @@ package katas;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class LeapYearsTest {
     @Test
@@ -37,4 +43,15 @@ public class LeapYearsTest {
         }
     }
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void shouldNotCreate() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+        thrown.expect(InvocationTargetException.class);
+        thrown.expectCause(Matchers.isA(UnsupportedOperationException.class));
+        final Constructor c = LeapYears.class.getDeclaredConstructor();
+        c.setAccessible(true);
+        c.newInstance();
+    }
 }

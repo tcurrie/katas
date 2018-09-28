@@ -7,7 +7,9 @@ import java.util.function.Function;
 import tcurrie.ycombinator.Y;
 
 public final class Fib {
-    private Fib() {}
+    private Fib() {
+        throw new UnsupportedOperationException("Do not create.");
+    }
 
     public static final Function<Integer, BigInteger> ITERATIVE = index -> {
         if (index == 0) return BigInteger.ZERO;
@@ -29,6 +31,7 @@ public final class Fib {
 
     private static final Map<Integer, BigInteger> KNOWN = new TepidMap<>(Maps.adapt(Maps.toIndexMap(0l, 1l, 1l, 2l), k->k, BigInteger::valueOf));
     private static final BigInteger TWO = BigInteger.valueOf(2);
+
     public static final Function<Integer, BigInteger> FAST_DOUBLING_WITH_WEAK_STORE = Y.Combinator.of(y -> index -> {
         if (KNOWN.containsKey(index)) {
             return KNOWN.get(index);

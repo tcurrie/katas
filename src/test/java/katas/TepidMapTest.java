@@ -282,6 +282,61 @@ public class TepidMapTest {
         assertThat(map.containsValue("b"), is(true));
     }
 
+    @Test
+    public void shouldClearWeakKeys() {
+        final TepidMap<String, String> map = new TepidMap<>();
+        map.put("a", "b");
+        map.clear();
+        assertThat(map.containsKey("a"), is(false));
+    }
+
+    @Test
+    public void shouldClearStrongKeys() {
+        final TepidMap<String, String> map = new TepidMap<>();
+        map.put("a", "b", true);
+        map.clear();
+        assertThat(map.containsKey("a"), is(false));
+    }
+
+    @Test
+    public void shouldStringifyStrongAndWeakContents() {
+        final TepidMap<String, String> map = new TepidMap<>();
+        map.put("a", "b", true);
+        map.put("c", "d");
+        assertThat(map.toString(), is("TepidMap{strong={a=b}, weak={c=d}}"));
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Test
+    public void shouldNotBeEqualIfNull() {
+        assertThat(new TepidMap<String, String>().equals(null), is(false));
+    }
+
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
+    @Test
+    public void shouldNotBeEqualIfNotAMap() {
+        assertThat(new TepidMap<String, String>().equals(new HashMap<>().keySet()), is(false));
+    }
+
+    @SuppressWarnings({"EqualsWithItself", "MismatchedQueryAndUpdateOfCollection"})
+    @Test
+    public void shouldBeEqualIfSameInstance() {
+        final TepidMap<String, String> map = new TepidMap<>();
+        assertThat(map.equals(map), is(true));
+    }
+
+    @Test
+    public void shouldHashcodeFullEntrySet() {
+        final TepidMap<String, String> map = new TepidMap<>();
+        map.put("a", "b", true);
+        map.put("c", "d");
+        final Map<String, String> expected = new HashMap<>();
+        expected.put("a", "b");
+        expected.put("c", "d");
+        assertThat(map.hashCode(), is(expected.entrySet().hashCode()));
+    }
+
+
     @SuppressWarnings("UnnecessaryBoxing")
     private Integer createNewInteger(final int i) {
         return new Integer(i);
