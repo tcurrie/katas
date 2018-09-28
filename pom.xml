@@ -8,6 +8,40 @@
     <artifactId>katas</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <inceptionYear>2018</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Todd Currie</name>
+            <email>toddrcurrie@gmail.com</email>
+            <roles>
+                <role>Maintainer</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>-8</timezone>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/tcurrie/katas.git</connection>
+        <developerConnection>scm:git:git@github.com:tcurrie/katas.git</developerConnection>
+        <url>https://github.com/tcurrie/ycombinator</url>
+    </scm>
+
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/tcurrie/katas/issues</url>
+    </issueManagement>
+
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -45,5 +79,31 @@
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.1.0</version>
+                <configuration>
+                    <repoToken>tWqUj8OyTu1vbAUUpafVyqMXCapgjyPAV</repoToken>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.5.201505241946</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

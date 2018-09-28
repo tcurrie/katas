@@ -1,0 +1,8 @@
+language: java
+jdk: oraclejdk8
+before_install:
+- mvn versions:set -DnewVersion=$VERSION
+script: mvn verify jacoco:report coveralls:report
+env:
+  global:
+  - VERSION=0.2.$TRAVIS_BUILD_NUMBER
