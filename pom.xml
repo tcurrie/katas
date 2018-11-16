@@ -78,7 +78,7 @@
         <dependency>
             <groupId>com.github.tcurrie</groupId>
             <artifactId>ycombinator</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

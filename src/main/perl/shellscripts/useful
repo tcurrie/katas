@@ -1,0 +1,24 @@
+
+#pid\tname
+perl -e 'map { @c=split /\s+/; $n{$c[1]}=$c[10] } grep /\d/, `ps auwx`; print map("$_\t$n{$_}\n",keys %n)' | sort -g
+perl -e 'map { @c=split /\s+/; $c[10] =~ s|.*services/([^/]+).*|$1|; $n{$c[1]}=$c[10] } grep /\d/, `ps auwx`; print map("$_\t$n{$_}\n",keys %n)' | sort -g
+
+
+#thread count\tpid
+perl -e 'map $t{$_}++, map {(split /\s+/)[1]} `ps aux -T`; print map("$t{$_}\t$_\n", keys %t)' | sort -g
+
+#file descriptor count\tpid
+perl -e 'map chomp($fd{$_}=`lsof -p $_ 2>/dev/null | wc -l`), map {(split /\s+/)[1]} `ps aux`; print map("$fd{$_}\t$_\n", keys %fd)' | sort -g
+
+#pid\tname\tthreads\tfile desc
+perl -e '\
+ map { @c=split /\s+/; $n{$c[1]}=$c[10] } grep /\d/, `ps auwx`; \
+ map $t{$_}++, map {(split /\s+/)[1]} `ps aux -T`; \
+ map chomp($fd{$_}=`lsof -p $_ 2>/dev/null | wc -l`), keys %n; \
+ print map("$_\t$n{$_}\t$t{$_}\t$fd{$_}\n",keys %n); ' | sort -g
+
+
+
+
+cat lsof.out | perl -e 'for (<STDIN>) { my ($pid,$tid,$fd,$t) = /^\S+\s+(\d+)\s+?(\d*)\s+\w+\s+(\w+)\s{1,10}(\S*)/; $p{$pid}{c}++; $p{$pid}{t}{$tid}++; $p{$pid}{f}{$fd}++; $p{$pid}{y}{$t}++; } for (keys %p) { print "$p{$_}{c}\t", scalar(keys %{$p{$_}{t}}), "\t", scalar(keys %{$p{$_}{f}}), "\t$_\n" if 0; if ($_ eq 385) {for my $f(keys %{$p{$_}{f}}) {print "$f\t$p{$_}{f}{$f}\n";} }}'
+
